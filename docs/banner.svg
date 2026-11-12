@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-label="Chrono Vault - Premium watch storefront built with Flutter">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050912"/>
+      <stop offset="0.5" stop-color="#0D1D38"/>
+      <stop offset="1" stop-color="#0A1325"/>
+    </linearGradient>
+    <radialGradient id="orange" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#EE8A2E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#EE8A2E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="teal" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#63E5D7" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#63E5D7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D4E2FF"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#EE8A2E"/>
+      <stop offset="1" stop-color="#63E5D7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#bg)"/>
+
+  <!-- drifting glows -->
+  <circle cx="1000" cy="180" r="260" fill="url(#orange)">
+    <animate attributeName="r" values="240;290;240" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="cx" values="1000;960;1000" dur="9s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="160" cy="320" r="220" fill="url(#teal)">
+    <animate attributeName="r" values="200;250;200" dur="7s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="320;280;320" dur="8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- watch face -->
+  <g transform="translate(990 180)">
+    <circle r="118" fill="#0B1120" stroke="#EE8A2E" stroke-width="3" stroke-opacity="0.9"/>
+    <circle r="106" fill="none" stroke="#63E5D7" stroke-width="1.5" stroke-opacity="0.45" stroke-dasharray="2 9">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite"/>
+    </circle>
+    <g stroke="#D4E2FF" stroke-width="3" stroke-linecap="round" stroke-opacity="0.85">
+      <line x1="0" y1="-92" x2="0" y2="-80"/>
+      <line x1="0" y1="92" x2="0" y2="80"/>
+      <line x1="-92" y1="0" x2="-80" y2="0"/>
+      <line x1="92" y1="0" x2="80" y2="0"/>
+    </g>
+    <g stroke="#D4E2FF" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.4">
+      <line x1="46" y1="-80" x2="42" y2="-73" />
+      <line x1="80" y1="-46" x2="73" y2="-42" />
+      <line x1="80" y1="46" x2="73" y2="42" />
+      <line x1="46" y1="80" x2="42" y2="73" />
+      <line x1="-46" y1="80" x2="-42" y2="73" />
+      <line x1="-80" y1="46" x2="-73" y2="42" />
+      <line x1="-80" y1="-46" x2="-73" y2="-42" />
+      <line x1="-46" y1="-80" x2="-42" y2="-73" />
+    </g>
+    <!-- hour hand -->
+    <line x1="0" y1="0" x2="0" y2="-48" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="60" to="420" dur="120s" repeatCount="indefinite"/>
+    </line>
+    <!-- minute hand -->
+    <line x1="0" y1="0" x2="0" y2="-76" stroke="#D4E2FF" stroke-width="4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="200" to="560" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <!-- second hand -->
+    <line x1="0" y1="14" x2="0" y2="-88" stroke="#EE8A2E" stroke-width="2" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="6s" repeatCount="indefinite"/>
+    </line>
+    <circle r="6" fill="#EE8A2E"/>
+  </g>
+
+  <!-- text -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="70" y="112" font-size="16" font-weight="700" letter-spacing="6" fill="#63E5D7">
+      PREMIUM WATCH STOREFRONT
+      <animate attributeName="opacity" values="0;1" dur="1s" fill="freeze"/>
+    </text>
+    <text x="68" y="195" font-size="84" font-weight="900" letter-spacing="1" fill="url(#title)">
+      Chrono Vault
+      <animate attributeName="opacity" values="0;1" dur="1.2s" begin="0.3s" fill="freeze"/>
+    </text>
+    <rect x="70" y="220" width="0" height="5" rx="2.5" fill="url(#bar)">
+      <animate attributeName="width" values="0;260" dur="1.2s" begin="0.8s" fill="freeze"/>
+    </rect>
+    <text x="70" y="272" font-size="22" fill="#D4E2FF" fill-opacity="0.9">
+      Browse. Try on. Check out. Built with Flutter.
+      <animate attributeName="opacity" values="0;1" dur="1s" begin="1.4s" fill="freeze"/>
+    </text>
+  </g>
+</svg>
