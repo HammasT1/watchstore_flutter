@@ -19,18 +19,21 @@ A dark, animated watch storefront with a gesture-driven try-on studio and a glas
 </div>
 
 > [!NOTE]
-> **Status: prototype.** The catalog is hard-coded and the checkout is a UI preview. There is no backend, payment processing, or persistence yet.
+> **Status: prototype.** The catalog is hard-coded and the checkout is a UI preview. Cart, favorites, and orders are saved on the device; there is no backend or payment processing, and order status is simulated from the time elapsed.
 
 ## ✨ Features
 
 | | |
 | --- | --- |
-| 🎠 **Animated carousel** | Swipe through 11 watches with scale, fade, and parallax effects. Tap a watch or a page indicator to jump to it. |
-| 🎨 **Accent theming** | Every watch has its own accent color that drives the price, buttons, glow, and indicator. |
-| ❤️ **Favorites and cart** | Toggle favorites, add to cart, and watch the header counter update live. |
+| 🎠 **3D carousel** | Swipe through 11 watches in a coverflow that turns, scales, and fades. The watch in focus floats, catches a sweep of light, and sits in a rotating halo. |
+| ✨ **Showcase page** | Open a watch to see it fly in, spin, and hover among orbiting comets and glints. Drag it to tilt it in 3D and it springs back. Specs and price animate in. |
+| 🎨 **Accent theming** | Every watch has its own accent color that drives the price, buttons, glow, and a drifting aurora background. |
+| ❤️ **Favorites** | Tap the heart for a burst animation, then review saved watches on their own screen and move them to the cart. |
+| 🛒 **Cart with quantities** | Add a watch and see it fly into the cart. Change quantities, swipe to remove, and undo. |
 | ⌚ **Try-On Studio** | Pinch to zoom, rotate with two fingers, and drag to place a watch over a wrist guide. |
-| 🛒 **Cart collection** | Review selected watches with a running total. |
-| 💳 **Smart Checkout preview** | A frosted-glass bottom sheet with an animated delivery ETA, payment selection, and an order confirmation dialog. |
+| 💳 **Smart Checkout preview** | A frosted-glass bottom sheet with an animated delivery ETA, payment selection, and a confetti order confirmation. |
+| 📦 **Order history** | Placed orders are kept with their items, payment method, and a status timeline. |
+| 💾 **Saved on device** | Favorites, cart, and orders survive restarts. |
 
 ## 📱 Screenshots
 
@@ -46,6 +49,11 @@ A dark, animated watch storefront with a gesture-driven try-on studio and a glas
     <td align="center"><img src="docs/screenshots/04-cart.png" width="200" alt="Cart collection"/><br/><sub><b>Cart</b></sub></td>
     <td align="center"><img src="docs/screenshots/05-checkout.png" width="200" alt="Smart Checkout"/><br/><sub><b>Smart Checkout</b></sub></td>
     <td align="center"><img src="docs/screenshots/06-order-placed.png" width="200" alt="Order placed"/><br/><sub><b>Order placed</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/07-detail.png" width="200" alt="Watch showcase"/><br/><sub><b>Showcase</b></sub></td>
+    <td align="center"><img src="docs/screenshots/08-favorites.png" width="200" alt="Favorites"/><br/><sub><b>Favorites</b></sub></td>
+    <td align="center"><img src="docs/screenshots/09-orders.png" width="200" alt="Order history"/><br/><sub><b>Orders</b></sub></td>
   </tr>
 </table>
 
@@ -71,8 +79,8 @@ The UI uses a deep-navy dark theme with an orange primary and a teal secondary.
 | --- | --- |
 | Framework | Flutter, Material 3, dark theme |
 | Language | Dart `^3.9.2` |
-| State management | Built-in `setState` |
-| Dependencies | `cupertino_icons` |
+| State management | `ChangeNotifier` store shared through an `InheritedNotifier` |
+| Dependencies | `shared_preferences`, `cupertino_icons` |
 | Linting | `flutter_lints` |
 | CI/CD | GitHub Actions, builds and releases the APK on version tags |
 
@@ -130,31 +138,40 @@ git push origin v1.0.0
 ```
 watchstore_flutter/
 ├── lib/
-│   └── main.dart          # App entry point, screens, and widgets
+│   ├── main.dart          # App entry point and theme
+│   ├── data/              # Hard-coded catalog
+│   ├── models/            # WatchItem, Order
+│   ├── state/             # Store: favorites, cart, orders, persistence
+│   ├── screens/           # Home, detail, favorites, cart, orders, try-on
+│   └── widgets/           # Animation effects, showcase, checkout sheet
 ├── assets/images/         # Product images and UI icons
 ├── docs/                  # README banner and screenshots
-├── test/                  # Widget tests
+├── test/                  # Store and widget tests
 ├── .github/workflows/     # CI: APK build and release
 └── android/ ios/ web/ linux/ macos/ windows/
 ```
 
-Key components in [`lib/main.dart`](lib/main.dart):
+Key components:
 
 | Component | Responsibility |
 | --- | --- |
-| `WatchStoreApp` | Root `MaterialApp` and theme |
-| `WatchItem` | Immutable product model |
-| `WatchStoreHome` | Carousel, product details, favorites, cart actions |
-| `TryOnPage` | Gesture-driven try-on studio |
-| `WristGuidePainter` | Custom painter for the wrist guide |
-| `CartCollectionPage` | Cart summary and total |
-| `SmartCheckoutSheet` | Checkout sheet with ETA and payment selection |
+| [`StoreController`](lib/state/store.dart) | Favorites, cart quantities, and orders, saved with `shared_preferences` |
+| [`WatchStoreHome`](lib/screens/home_page.dart) | 3D carousel, product summary, cart and favorite actions |
+| [`WatchDetailPage`](lib/screens/detail_page.dart) | Showcase, specs, and quantity controls |
+| [`WatchShowcase`](lib/widgets/watch_showcase.dart) | Floating, tiltable watch with orbits, glints, and light sweep |
+| [`FavoritesPage`](lib/screens/favorites_page.dart) | Saved watches and move to cart |
+| [`CartPage`](lib/screens/cart_page.dart) | Cart lines, quantities, total, and checkout |
+| [`OrdersPage`](lib/screens/orders_page.dart) | Order history and status timeline |
+| [`TryOnPage`](lib/screens/try_on_page.dart) | Gesture-driven try-on studio |
+| [`effects.dart`](lib/widgets/effects.dart) | Reusable animation pieces: aurora, shine, orbits, fly-to-cart |
+
+Idle animations pause when the device asks for reduced motion.
 
 ## 🗺 Roadmap
 
-- [ ] Split `main.dart` into feature-based modules
+- [x] Split `main.dart` into feature-based modules
 - [ ] Load the catalog from a remote data source
-- [ ] Persist cart and favorites
+- [x] Persist cart and favorites
 - [ ] Integrate a real payment provider
 - [ ] Live camera try-on
 - [ ] Native sharing
